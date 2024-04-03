@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "20241_fatec_ipi_paoo_mss",
-    "dateExported": "2024-03-27T20:56:03.060Z",
+    "dateExported": "2024-04-03T21:02:02.441Z",
     "version": "1.1",
     "folders": [
         {
@@ -51,6 +51,39 @@
             "modified": "2024-03-27T20:54:18.505Z",
             "headers": [],
             "params": [],
+            "tests": []
+        },
+        {
+            "_id": "95b32f89-8da0-48d5-859f-06e4dbea0340",
+            "colId": "28abc959-14c4-49ec-bed3-6e19a6f2eb7d",
+            "containerId": "2c7a46fb-7748-4bcd-92ca-cccb69639735",
+            "name": "Obter observacoes de um lembrete",
+            "url": "localhost:5000/lembretes/1/observacoes",
+            "method": "GET",
+            "sortNum": 30000,
+            "created": "2024-04-03T20:23:27.594Z",
+            "modified": "2024-04-03T20:26:30.594Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "de5d520b-539b-49ec-92bb-88ed3bd18a51",
+            "colId": "28abc959-14c4-49ec-bed3-6e19a6f2eb7d",
+            "containerId": "2c7a46fb-7748-4bcd-92ca-cccb69639735",
+            "name": "Salvar observacao para um lembrete",
+            "url": "localhost:5000/lembretes/1/observacoes",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2024-04-03T20:28:14.558Z",
+            "modified": "2024-04-03T20:30:23.120Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"texto\": \"{{#string}}\"\n}",
+                "form": []
+            },
             "tests": []
         }
     ]
