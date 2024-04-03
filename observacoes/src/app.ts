@@ -33,7 +33,9 @@ app.post('/lembretes/:id/observacoes', (req, res) => {
     const observacoesDoLembrete: Observacao[] = observacoes[req.params.id] || []
     //4. Na coleção pega no passo anterior, adiciono um novo objeto caracterizado por id e texto
     observacoesDoLembrete.push({id: idObs, texto})
-    //5. Responder para o cliente com o status 201 e entregando a ele a coleção atualizada
+    //5. Atualizar o ponteiro na base global para que ele aponte para a coleção que contém a nova observação
+    observacoes[req.params.id] = observacoesDoLembrete
+    //6. Responder para o cliente com o status 201 e entregando a ele a coleção atualizada
     res.status(201).json(observacoesDoLembrete)
 })
 
