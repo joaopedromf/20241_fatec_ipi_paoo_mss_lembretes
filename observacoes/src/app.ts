@@ -32,7 +32,8 @@ app.post('/lembretes/:id/observacoes', (req, res) => {
     //3. pegar a coleção de observações do lembrete cujo id se encontra na url, caso exista. Caso contrário, pego uma coleção nova, vazia.
     const observacoesDoLembrete: Observacao[] = observacoes[req.params.id] || []
     //4. Na coleção pega no passo anterior, adiciono um novo objeto caracterizado por id e texto
-    observacoesDoLembrete.push({id: idObs, texto})
+    const obs = {id: idObs, texto}
+    observacoesDoLembrete.push(obs)
     //5. Atualizar o ponteiro na base global para que ele aponte para a coleção que contém a nova observação
     observacoes[req.params.id] = observacoesDoLembrete
     //6. Responder para o cliente com o status 201 e entregando a ele a coleção atualizada
