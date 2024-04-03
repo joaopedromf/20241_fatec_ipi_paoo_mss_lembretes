@@ -40,8 +40,15 @@ app.post('/lembretes', (req, res) => {
 
 //GET /lembretes/{id} obter um lembrete pelo id
 //pesquisar como podemos pegar o id dado que ele faz parte da url
-app.get('', (req, res) => {
-
+app.get('/lembretes/:id', (req, res) => {
+    const { id } = req.params;
+    const lembrete = lembretes[id]
+    if(lembrete){
+        res.json(lembrete)
+    }
+    else{
+        res.status(404).send('Lembrete não encontrado')
+    }
 })
 
 const port = 4000
