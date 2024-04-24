@@ -1,4 +1,5 @@
 import express from 'express'
+import axios from 'axios'
 import {v4 as uuidv4} from 'uuid'
 const app = express()
 app.use(express.json())
@@ -36,6 +37,12 @@ app.post('/lembretes/:id/observacoes', (req, res) => {
     observacoesDoLembrete.push(obs)
     //5. Atualizar o ponteiro na base global para que ele aponte para a coleção que contém a nova observação
     observacoes[req.params.id] = observacoesDoLembrete
+    //três potinhos é o operador spread
+    //emitindo um evento
+    axios.post('http://localhost:10000/eventos', {
+        tipo: 'ObservacaoCriada',
+        dados: {...obs, lembreteId: req.params.id}
+    })
     //6. Responder para o cliente com o status 201 e entregando a ele a coleção atualizada
     res.status(201).json(observacoesDoLembrete)
 })
@@ -43,6 +50,11 @@ app.post('/lembretes/:id/observacoes', (req, res) => {
 //GET /lembretes/123456/observacoes
 app.get('/lembretes/:id/observacoes', (req, res) => {
     res.json(observacoes[req.params.id] || []);
+})
+
+app.post('/eventos', (req, res) => {
+    console.log(req.body)
+    res.send()
 })
 
 const port = 5000
