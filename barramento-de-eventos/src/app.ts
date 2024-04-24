@@ -9,6 +9,8 @@ app.post('/eventos', (req, res) => {
     axios.post('http://localhost:4000/eventos', evento)
     //enviando o evento para o mss de observações
     axios.post('http://localhost:5000/eventos', evento)
+    //enviando o evento para o mss de consulta
+    axios.post('http://localhost:6000/eventos', evento)
 })
 
 const port = 10000
