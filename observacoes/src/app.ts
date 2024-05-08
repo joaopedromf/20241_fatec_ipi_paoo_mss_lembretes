@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request } from 'express'
 import axios from 'axios'
 import {v4 as uuidv4} from 'uuid'
 const app = express()
@@ -24,6 +24,15 @@ interface Observacao{
     texto: string;
 }
 const observacoes: Record<string, Observacao[]> = {}
+
+const criarLog = (req: Request) => {
+    axios.post('http://localhost:7000/logs', {
+        mss: 'observacoes',
+        metodo: req.method, 
+        caminho: req.path
+    })
+}
+
 //POST /lembretes/123456/observacoes
 app.post('/lembretes/:id/observacoes', (req, res) => {
     //1. gerar id de observação (descobrir como usar a versão 4 do uuid Typescript)
@@ -43,12 +52,15 @@ app.post('/lembretes/:id/observacoes', (req, res) => {
         tipo: 'ObservacaoCriada',
         dados: {...obs, lembreteId: req.params.id}
     })
+    //criar log
+    criarLog(req)
     //6. Responder para o cliente com o status 201 e entregando a ele a coleção atualizada
     res.status(201).json(observacoesDoLembrete)
 })
 
 //GET /lembretes/123456/observacoes
 app.get('/lembretes/:id/observacoes', (req, res) => {
+    criarLog(req)
     res.json(observacoes[req.params.id] || []);
 })
 

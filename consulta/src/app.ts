@@ -1,4 +1,5 @@
-import express from 'express'
+import express, { Request } from 'express'
+import axios from 'axios'
 const app = express()
 app.use(express.json())
 
@@ -31,7 +32,16 @@ const funcoes: Record<string, Function> = {
     }
 }
 
+const criarLog = (req: Request) => {
+    axios.post('http://localhost:7000/logs', {
+        mss: 'consulta',
+        metodo: req.method, 
+        caminho: req.path
+    })
+}
+
 app.get('/lembretes', (req, res) => {
+    criarLog(req)
     res.status(200).json(baseConsolidada)
 })
 

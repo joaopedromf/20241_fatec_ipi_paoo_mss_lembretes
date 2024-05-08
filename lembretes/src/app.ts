@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request } from 'express'
 import axios from 'axios'
 const app = express()
 app.use(express.json())
@@ -20,8 +20,18 @@ interface lembrete{
 }
 const lembretes: Record <string, lembrete> = {}
 let id: string = '1'
+
+const criarLog = (req: Request) => {
+    axios.post('http://localhost:7000/logs', {
+        mss: 'lembretes',
+        metodo: req.method, 
+        caminho: req.path
+    })
+}
+
 //GET /lembretes obter a coleção de lembretes
 app.get('/lembretes', (req, res) => {
+    criarLog(req)
     res.json(lembretes)
 })
 
@@ -40,6 +50,8 @@ app.post('/lembretes', (req, res) => {
         tipo: 'LembreteCriado',
         dados: lembrete
     })
+    //criar log
+    criarLog(req)
     //responder ao cliente
     res.json(lembrete)
 })
@@ -61,6 +73,7 @@ app.get('/lembretes/:id', (req, res) => {
     else{
         res.status(404).send('Lembrete não encontrado')
     }
+    criarLog(req)
 })
 
 const port = 4000
