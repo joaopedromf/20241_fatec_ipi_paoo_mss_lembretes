@@ -4,6 +4,38 @@ import {v4 as uuidv4} from 'uuid'
 const app = express()
 app.use(express.json())
 
+const funcoes: Record<string, Function> = {
+    ObservacaoClassificada: (observacao: Observacao) => {
+        //encontrar a observacao na base local e atualizar o seu status
+        const observacoesAux = observacoes[observacao.lembreteId]
+        const obsParaAtualizar: Observacao = observacoesAux.find(o => o.id === observacao.id)!
+        obsParaAtualizar.status = observacao.status
+        //emitir um evento do tipo ObservacaoAtualizada
+        axios.post('http://localhost:10000/eventos', {
+            tipo: 'ObservacaoAtualizada',
+            dados: {
+                id: observacao.id,
+                texto: observacao.texto,
+                lembreteId: observacao.lembreteId,
+                status: observacao.status
+            }
+        })
+    }
+}
+
+//terminar esse endpoint de modo que ele use o mapa de funcoes para tratar o evento de interesse
+app.post('/eventos', (req, res) => {
+    try{
+        console.log(req.body)
+        funcoes[req.body.tipo](req.body.dados)
+        
+    }
+    catch(e){
+        //representa o descarte de um evento que não é de interesse para esse mss
+    }
+    res.send()
+})
+
 /* 
 a estrutura da base de observações...
 {
@@ -22,11 +54,13 @@ a estrutura da base de observações...
 interface Observacao{
     id: string;
     texto: string;
+    lembreteId: string;
+    status: string;
 }
 const observacoes: Record<string, Observacao[]> = {}
 
 const criarLog = (req: Request) => {
-    axios.post('http://localhost:7000/logs', {
+    axios.post('http://localhost:11000/logs', {
         mss: 'observacoes',
         metodo: req.method, 
         caminho: req.path
@@ -42,7 +76,7 @@ app.post('/lembretes/:id/observacoes', (req, res) => {
     //3. pegar a coleção de observações do lembrete cujo id se encontra na url, caso exista. Caso contrário, pego uma coleção nova, vazia.
     const observacoesDoLembrete: Observacao[] = observacoes[req.params.id] || []
     //4. Na coleção pega no passo anterior, adiciono um novo objeto caracterizado por id e texto
-    const obs = {id: idObs, texto}
+    const obs = {id: idObs, texto, status: 'aguardando', lembreteId: req.params.id}
     observacoesDoLembrete.push(obs)
     //5. Atualizar o ponteiro na base global para que ele aponte para a coleção que contém a nova observação
     observacoes[req.params.id] = observacoesDoLembrete
@@ -62,11 +96,6 @@ app.post('/lembretes/:id/observacoes', (req, res) => {
 app.get('/lembretes/:id/observacoes', (req, res) => {
     criarLog(req)
     res.json(observacoes[req.params.id] || []);
-})
-
-app.post('/eventos', (req, res) => {
-    console.log(req.body)
-    res.send()
 })
 
 const port = 5000

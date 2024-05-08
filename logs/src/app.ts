@@ -16,7 +16,7 @@ app.get('/logs', (req, res) => {
     res.status(200).json(logs)
 })
 
-const port = 7000
+const port = 11000
 app.listen(port, () => {
     console.log(`Logs. Porta ${port}.`)
 })

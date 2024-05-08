@@ -29,11 +29,18 @@ const funcoes: Record<string, Function> = {
         observacoes.push(observacao)
         //4. acesso a base consolidada indexando-a de lembreteId, dele pego a chave observacoes e a ela associo a nova coleção
         baseConsolidada[observacao.lembreteId]['observacoes'] = observacoes
+    },
+    //tratar ObservacaoAtualizada
+    //substituir a observacao existente no banco, pela nova. Encontre ela pelo id e substitua
+    ObservacaoAtualizada: (observacao: Observacao) => {
+        const observacoesAux: Observacao[] = baseConsolidada[observacao.lembreteId]['observacoes']!
+        const indice = observacoesAux?.findIndex(o => o.id === observacao.id)!
+        observacoesAux[indice] = observacao
     }
 }
 
 const criarLog = (req: Request) => {
-    axios.post('http://localhost:7000/logs', {
+    axios.post('http://localhost:11000/logs', {
         mss: 'consulta',
         metodo: req.method, 
         caminho: req.path
@@ -47,7 +54,13 @@ app.get('/lembretes', (req, res) => {
 
 app.post('/eventos', (req, res) => {
     //{tipo: ....., dados: ......}
-    funcoes[req.body.tipo](req.body.dados)
+    try{
+        console.log(req.body)
+        funcoes[req.body.tipo](req.body.dados)
+    }
+    catch(e){
+        res.end()
+    }
 })
 
 const port = 6000

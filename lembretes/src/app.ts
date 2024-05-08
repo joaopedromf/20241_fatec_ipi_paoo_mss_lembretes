@@ -22,7 +22,7 @@ const lembretes: Record <string, lembrete> = {}
 let id: string = '1'
 
 const criarLog = (req: Request) => {
-    axios.post('http://localhost:7000/logs', {
+    axios.post('http://localhost:11000/logs', {
         mss: 'lembretes',
         metodo: req.method, 
         caminho: req.path
@@ -58,7 +58,10 @@ app.post('/lembretes', (req, res) => {
 
 //POST /eventos
 app.post('/eventos', (req, res) => {
-    console.log(req.body)
+    try{
+        console.log(req.body)
+    }
+    catch(e){}
     res.send()
 })
 
