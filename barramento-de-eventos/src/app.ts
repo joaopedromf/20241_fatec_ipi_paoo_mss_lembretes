@@ -3,18 +3,42 @@ import axios from 'axios'
 const app = express()
 app.use(express.json())
 
-app.post('/eventos', (req, res) => {
+interface Evento{
+    tipo: string,
+    dados: {}
+}
+
+const eventos: Evento[] = []
+
+app.post('/eventos', async (req, res) => {
     const evento = req.body
+    eventos.push(evento)
     console.log(evento)
-    //enviando o evento para o mss de lembretes
-    axios.post('http://localhost:4000/eventos', evento)
-    //enviando o evento para o mss de observações
-    axios.post('http://localhost:5000/eventos', evento)
-    //enviando o evento para o mss de consulta
-    axios.post('http://localhost:6000/eventos', evento)
-    //envia o evento para o mss de classificação
-    axios.post('http://localhost:7000/eventos', evento)
+    try{
+        //enviando o evento para o mss de lembretes
+        await axios.post('http://localhost:4000/eventos', evento)
+    }
+    catch(e){}
+    try{
+        //enviando o evento para o mss de observações
+        await axios.post('http://localhost:5000/eventos', evento)
+    }
+    catch(e){}
+    try{
+        //enviando o evento para o mss de consulta
+        await axios.post('http://localhost:6000/eventos', evento)
+    }
+    catch(e){}
+    try{
+        //envia o evento para o mss de classificação
+        await axios.post('http://localhost:7000/eventos', evento)
+    }
+    catch(e){}
     res.end()
+})
+
+app.get('/eventos', (req, res) => {
+    res.json(eventos);
 })
 
 const port = 10000
