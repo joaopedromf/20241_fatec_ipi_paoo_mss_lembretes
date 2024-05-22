@@ -11,7 +11,7 @@ const funcoes: Record<string, Function> = {
         const obsParaAtualizar: Observacao = observacoesAux.find(o => o.id === observacao.id)!
         obsParaAtualizar.status = observacao.status
         //emitir um evento do tipo ObservacaoAtualizada
-        axios.post('http://localhost:10000/eventos', {
+        axios.post('http://192.168.15.85:10000/eventos', {
             tipo: 'ObservacaoAtualizada',
             dados: {
                 id: observacao.id,
@@ -60,7 +60,7 @@ interface Observacao{
 const observacoes: Record<string, Observacao[]> = {}
 
 const criarLog = (req: Request) => {
-    axios.post('http://localhost:11000/logs', {
+    axios.post('http://192.168.15.85:11000/logs', {
         mss: 'observacoes',
         metodo: req.method, 
         caminho: req.path
@@ -82,7 +82,7 @@ app.post('/lembretes/:id/observacoes', (req, res) => {
     observacoes[req.params.id] = observacoesDoLembrete
     //três potinhos é o operador spread
     //emitindo um evento
-    axios.post('http://localhost:10000/eventos', {
+    axios.post('http://192.168.15.85:10000/eventos', {
         tipo: 'ObservacaoCriada',
         dados: {...obs, lembreteId: req.params.id}
     })

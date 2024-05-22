@@ -16,22 +16,22 @@ app.post('/eventos', async (req, res) => {
     console.log(evento)
     try{
         //enviando o evento para o mss de lembretes
-        await axios.post('http://localhost:4000/eventos', evento)
+        await axios.post('http://192.168.15.85:4000/eventos', evento)
     }
     catch(e){}
     try{
         //enviando o evento para o mss de observações
-        await axios.post('http://localhost:5000/eventos', evento)
+        await axios.post('http://192.168.15.85:5000/eventos', evento)
     }
     catch(e){}
     try{
         //enviando o evento para o mss de consulta
-        await axios.post('http://localhost:6000/eventos', evento)
+        await axios.post('http://192.168.15.85:6000/eventos', evento)
     }
     catch(e){}
     try{
         //envia o evento para o mss de classificação
-        await axios.post('http://localhost:7000/eventos', evento)
+        await axios.post('http://192.168.15.85:7000/eventos', evento)
     }
     catch(e){}
     res.end()

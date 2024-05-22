@@ -45,7 +45,7 @@ const funcoes: Record<string, Function> = {
 }
 
 const criarLog = (req: Request) => {
-    axios.post('http://localhost:11000/logs', {
+    axios.post('http://192.168.15.85:11000/logs', {
         mss: 'consulta',
         metodo: req.method, 
         caminho: req.path
@@ -71,7 +71,7 @@ app.post('/eventos', (req, res) => {
 const port = 6000
 app.listen(port, async () => {
     console.log(`Consulta. Porta ${port}`)
-    const result = await axios.get('http://localhost:10000/eventos');
+    const result = await axios.get('http://192.168.15.85:10000/eventos');
     result.data.forEach((valor: Evento, indice: number, colecao: Evento[]) => {
         try{
             funcoes[valor.tipo](valor.dados);

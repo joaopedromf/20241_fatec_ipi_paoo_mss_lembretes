@@ -1,3 +1,9 @@
+15/05/2024
+01: Fazer com que o mss de classificação obtenha a lista de eventos perdidos quando ele entra em execução
+
+=====================================
+Antigos:
+
 1. Escreva um novo mss clonando o seguinte repositório
 https://github.com/IzabelleCC/fatec_paoo_modelo_nodejs_ts/
 

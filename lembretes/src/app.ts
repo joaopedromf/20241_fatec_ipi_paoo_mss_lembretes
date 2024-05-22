@@ -22,7 +22,7 @@ const lembretes: Record <string, lembrete> = {}
 let id: string = '1'
 
 const criarLog = (req: Request) => {
-    axios.post('http://localhost:11000/logs', {
+    axios.post('http://192.168.15.85:11000/logs', {
         mss: 'lembretes',
         metodo: req.method, 
         caminho: req.path
@@ -46,7 +46,7 @@ app.post('/lembretes', (req, res) => {
     //incremento o id
     id = (+id + 1).toString()
     //emitindo o evento
-    axios.post('http://localhost:10000/eventos', {
+    axios.post('http://192.168.15.85:10000/eventos', {
         tipo: 'LembreteCriado',
         dados: lembrete
     })
