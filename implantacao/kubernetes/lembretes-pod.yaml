@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: paoo-lembretes-pod
+spec:
+  containers:
+    - name: paoo-lembretes-container
+      image: jpmartinsforte/paoo-lembretes:0.0.1
+      resources:
+        limits:
+          memory: 256Mi
+          cpu: 1

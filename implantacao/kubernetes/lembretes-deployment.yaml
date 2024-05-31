@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paoo-lembretes-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paoo-lembretes
+  template:
+    metadata:
+      labels:
+        app: paoo-lembretes
+    spec:
+      containers:
+        - name: paoo-lembretes-container
+          image: jpmartinsforte/paoo-lembretes
+          resources:
+            limits:
+              memory: 256Mi
+              cpu: 1
